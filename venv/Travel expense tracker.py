@@ -30,7 +30,9 @@ def confirm_answer(question):
 daily_budget = force_number("What is your daily budget?")
 print("You have set your daily budget to {}".format(daily_budget))
 budget_confirmation = confirm_answer("Are you sure this is your budget? [yes or no]")
-if budget_confirmation == False:
-    daily_budget = force_number("What is your daily budget then?")
-elif budget_confirmation == True:
-    print ("Thank you, you may proceed") 
+while budget_confirmation == False:
+    daily_budget = force_number("What is your daily budget?")
+    budget_confirmation = confirm_answer("Are you sure this is your budget? [yes or no]")
+else:
+    print("Thank you, you may proceed") 
+

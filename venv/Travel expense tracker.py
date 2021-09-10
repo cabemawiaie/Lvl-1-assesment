@@ -42,7 +42,7 @@ category_list = ["accomodation", "food", "travel", "miscellaneous", "activity"]
 
 def category(category_list):
     print(category_list)
-    category = input("Which category does your expense fall under?").lower().strip()
+    category = input("Which category in the list above does your expense fall under?").lower().strip()
     while category in category_list:
         return category
         print("Thank you")

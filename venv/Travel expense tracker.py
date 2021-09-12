@@ -53,3 +53,20 @@ def category(category_list):
 
 category(category_list)
 
+def continue_spending():
+    tracking = True
+    expenses = {}
+    while tracking:
+        #Prompt for user's expense and expense type
+        expense_type = input("What is your expense for? e.g breakfast, movies, taxi").strip().title()
+        expense = float(input("Enter your expense: "))
+        #Stores expense in the dictionary
+        expenses[expense_type] = expense
+        #Finding out if user wants to enter another expense
+        repeat = input("Would you like to enter another expense?")
+        if repeat == "no":
+            tracking = False
+print("Expense history")
+for expense_type, expense in expenses.items():
+    print("{} : ${:.2f}".format(expense_type, expense))
+

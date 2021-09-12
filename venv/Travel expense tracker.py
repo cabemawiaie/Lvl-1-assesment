@@ -1,10 +1,10 @@
 #Year 11 assesment task
 #Making sure user input is valid
-#Making a change
 def force_number(message):
     while True:
         try:
             number = float(input(message))
+            #Accepting values higher than 0 only
             if(number <= 0):
                print("Please enter an amount greater than $0")
                continue
@@ -15,6 +15,7 @@ def force_number(message):
             print("Thank you")
         break
     return ("${:,.2f}".format(number))
+
 #Getting yes or no answer only
 def confirm_answer(question):
     while True:
@@ -31,6 +32,7 @@ def confirm_answer(question):
 
 daily_budget = force_number("What is your daily budget?")
 print("You have set your daily budget to {}".format(daily_budget))
+#Confirming user's budget
 budget_confirmation = confirm_answer("Are you sure this is your budget? [yes or no]")
 while budget_confirmation == False:
     daily_budget = force_number("What is your daily budget?")

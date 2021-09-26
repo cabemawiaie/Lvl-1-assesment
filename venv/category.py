@@ -1,13 +1,95 @@
-tracking = True
-while tracking:
-    history = {}
-    type = input("What is your expense for e.g breakfast, movies, taxi? ").strip().title()
-    expense = float(input("Enter your expense:$"))
-    history[type] = expense
-    repeat = input("Would you like to enter another expense?")
-    if repeat == "no":
-        tracking = False
-        for type, expense in history.items():
-            print(f"{type}: {expense}")
+food = {}
+accommodation = {}
+travel = {}
+miscellaneous = {}
+activity = {}
+expenses = {}
+category_list = ["accommodation", "food", "travel", "miscellaneous", "activity"]
+
+# Getting user's category choice
+def category(category_list):
+    print(category_list)
+    while True:
+        category = input("Which category does your expense fall under?").lower().strip()
+        if category in category_list:
+            return category
+        else:
+            print("Please enter a category in the list")
+
+# Forcing valid input from user
+def force_number(message):
+    while True:
+        try:
+            number = float(input(message))
+            if(number <= 0):
+               print("Please enter an amount greater than $0")
+               continue
+        except ValueError:
+            print("Please enter an amount")
+            continue
+        else:
+           break
+    return number
+
+# Getting yes or no answer only
+def confirm_answer(question):
+    while True:
+        reply = input(question).lower().strip()
+        if reply == "yes":
+            return True
+            break
+        elif reply == "no":
+            return False
+            break
+        else:
+            print("Please enter yes or no")
+            continue
+
+def continue_spending(daily_budget):
+    tracking = True
+    while tracking:
+        # Prompt for user's expense and expense type
+        Chosen_Category = category(category_list)
+        name = input("What is your expense for? e.g breakfast, movies, taxi  ").strip().title()
+        expense = force_number("Enter your expense:$")
+        # Stores expense in the user's chosen category dictionary
+        if Chosen_Category == "food":
+            food[name] = expense
+        elif Chosen_Category == "travel":
+            travel[name] = expense
+        elif Chosen_Category == "accommodation":
+            print("~ Accommodation expenditure ~")
+            accommodation[name] = expense
+        elif Chosen_Category == "activity":
+            activity[name] = expense
+        elif Chosen_Category == "miscellaneous":
+            miscellaneous[name] = expense
+        # Finding out if user wants to enter another expense
+        repeat = confirm_answer("Would you like to enter another expense?")
+        if repeat == False:
+            tracking == False
+            return food, travel, accommodation, activity, miscellaneous, daily_budget
+        else:
+            if daily_budget >= expense:
+                daily_budget -= expense
+                print("You have ${:,.2f} left to spend".format(daily_budget))
+            elif daily_budget < expense:
+                daily_budget -= expense
+                print("You are over your budget by ${:,.2f}".format(daily_budget))
+
+def history(food, travel, accommodation, activity, miscellaneous):
+    history = confirm_answer("Would you like to see your expense history?")
+    if history == True:
+        print("Previous Expenditure")
+        print(f"~ Food expenditure ~ \n {food} \n ~ Travel expenditure ~ \n {travel} \n ~ Accommodation expenditure ~ \n{accommodation} \n ~ Activity expenditure ~ \n {activity} \n ~ Miscellaneous expenditure ~ \n {miscellaneous}")
     else:
-        tracking = True
+        print("Thank you")
+
+#MAIN
+
+daily_budget = force_number("What is your daily budget: $")
+print("You have set your daily budget to ${:,.2f}".format(daily_budget))
+continue_spending(daily_budget)
+history(food, travel, accommodation, activity, miscellaneous)
+
+

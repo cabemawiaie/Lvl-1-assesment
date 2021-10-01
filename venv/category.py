@@ -31,6 +31,18 @@ def force_number(message):
            break
     return number
 
+# Forcing string only response from user
+def force_string(query):
+    while True:
+        string = input(query)
+        # checking if user's input is string
+        if string.isalpha() == True:
+            return string
+        else:
+            print("Please enter what your expense is for:  ")
+            continue
+
+
 # Getting yes or no answer only
 def confirm_answer(question):
     while True:
@@ -45,12 +57,12 @@ def confirm_answer(question):
             print("Please enter yes or no")
             continue
 
-def continue_spending(daily_budget):
+def categorizing_expense(daily_budget):
     tracking = True
     while tracking:
         # Prompt for user's expense and expense type
         Chosen_Category = category(category_list)
-        name = input("What is your expense for? e.g breakfast, movies, taxi  ").strip().title()
+        name = force_string("What is your expense for? e.g breakfast, movies, taxi  ").strip().title()
         expense = force_number("Enter your expense:$")
         # Stores expense in the user's chosen category dictionary
         if Chosen_Category == "food":
@@ -83,13 +95,13 @@ def history(food, travel, accommodation, activity, miscellaneous):
         print("Previous Expenditure")
         print(f"~ Food expenditure ~ \n {food} \n ~ Travel expenditure ~ \n {travel} \n ~ Accommodation expenditure ~ \n{accommodation} \n ~ Activity expenditure ~ \n {activity} \n ~ Miscellaneous expenditure ~ \n {miscellaneous}")
     else:
-        print("Thank you")
+        print("Thank you for you using this program to track your expenses")
 
 #MAIN
 
 daily_budget = force_number("What is your daily budget: $")
 print("You have set your daily budget to ${:,.2f}".format(daily_budget))
-continue_spending(daily_budget)
+categorizing_expense(daily_budget)
 history(food, travel, accommodation, activity, miscellaneous)
 
 

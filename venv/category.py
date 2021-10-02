@@ -70,7 +70,6 @@ def categorizing_expense(daily_budget):
         elif Chosen_Category == "travel":
             travel[name] = expense
         elif Chosen_Category == "accommodation":
-            print("~ Accommodation expenditure ~")
             accommodation[name] = expense
         elif Chosen_Category == "activity":
             activity[name] = expense

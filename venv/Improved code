@@ -106,6 +106,16 @@ def history(food, travel, accommodation, activity, miscellaneous):
     else:
         print("Thank you for you using this program to track your expenses")
 
+def rec(total_spending, daily_budget):
+    # If user spends more then their budget prints out be careful recommendation
+    if total_spending >= daily_budget:
+        print("You spent ${:,.2f} while the budget you set was ${:,.2f} \n Next time be more mindful of your spending".format(total_spending, daily_budget))
+    else:
+     # If user spends less then their budget prints out good job recommendation
+        if daily_budget > total_spending:
+            print("The budget you set was ${:,.2f} and you spent ${:,.2f} \n Next time you can treat yourself".format(daily_budget, total_spending))
+
+
 #MAIN
 print("Welcome to my expense tracking program where you can track your travel expenses")
 daily_budget = force_number("What is your daily budget: $")
@@ -118,6 +128,13 @@ else:
     print("You have set your daily budget to ${:,.2f}".format(daily_budget))
     print("Thank you, you may proceed")
 categorizing_expense(daily_budget)
-history(food, travel, accommodation, activity, miscellaneous)
+# Merging dictionries into one
+expenditure = food | travel | accommodation | activity | miscellaneous
+# Returning values of expenditure
+values = expenditure.values()
+# Summing all values in dictionary
+total_spending = sum(values)
+history(food, travel, accommodation, activity, miscellaneous, total_spending)
+rec(total_spending, daily_budget)
 
 

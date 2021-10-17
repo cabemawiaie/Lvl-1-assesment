@@ -1,3 +1,4 @@
+# Set variables
 food = {}
 accommodation = {}
 travel = {}
@@ -5,16 +6,6 @@ miscellaneous = {}
 activity = {}
 expenses = {}
 category_list = ["accommodation", "food", "travel", "miscellaneous", "activity"]
-
-# Getting user's category choice
-def category(category_list):
-    print(category_list)
-    while True:
-        category = input("Which category does your expense fall under?").lower().strip()
-        if category in category_list:
-            return category
-        else:
-            print("Please enter a category in the list")
 
 # Forcing valid input from user
 def force_number(message):
@@ -31,18 +22,19 @@ def force_number(message):
            break
     return number
 
+
 # Forcing string only response from user
-def force_string(query):
-    while True:
-        string = input(query)
-        # checking if user's input is string
-        if string.isalpha() == True:
-            return string
+def force_answer(query):
+    answer = input(query)
+    # checking for numbers
+    for l in answer:
+        if l.isdigit():
+            print("Please enter valid input")
+            answer = input(query)
+    # checking for spaces or letters
         else:
-            print("Please enter what your expense is for:  ")
-            continue
-
-
+            if all(l.isalpha() or l.isspace() for l in answer):
+                return answer
 # Getting yes or no answer only
 def confirm_answer(question):
     while True:
@@ -56,13 +48,23 @@ def confirm_answer(question):
         else:
             print("Please enter yes or no")
             continue
+            
+# Getting user's category choice
+def category(category_list):
+    print(category_list)
+    while True:
+        category = input("Which category does your expense fall under?").lower().strip()
+        if category in category_list:
+            return category
+        else:
+            print("Please enter a category in the list")       
 
 def categorizing_expense(daily_budget):
     tracking = True
     while tracking:
         # Prompt for user's expense and expense type
         Chosen_Category = category(category_list)
-        name = force_string("What is your expense for? e.g breakfast, movies, taxi  ").strip().title()
+        name = force_answer("What is your expense for? e.g breakfast, movies, taxi, souvenirs  ").strip().title()
         expense = force_number("Enter your expense:$")
         # Stores expense in the user's chosen category dictionary
         if Chosen_Category == "food":
@@ -81,9 +83,11 @@ def categorizing_expense(daily_budget):
             tracking == False
             return food, travel, accommodation, activity, miscellaneous, daily_budget
         else:
+            # Lets user know how much they have left to spend
             if daily_budget >= expense:
                 daily_budget -= expense
                 print("You have ${:,.2f} left to spend".format(daily_budget))
+            # Lets user know they are over their set budget
             elif daily_budget < expense:
                 daily_budget -= expense
                 print("You are over your budget by ${:,.2f}".format(daily_budget))
@@ -91,13 +95,19 @@ def categorizing_expense(daily_budget):
 def history(food, travel, accommodation, activity, miscellaneous):
     history = confirm_answer("Would you like to see your expense history?")
     if history == True:
+        # Merging dictionries into one 
+        expenditure = food | travel | accommodation | activity | miscellaneous
+        # Returning values of expenditure 
+        values = expenditure.values()
+        total_spending = sum(values)
         print("Previous Expenditure")
         print(f"~ Food expenditure ~ \n {food} \n ~ Travel expenditure ~ \n {travel} \n ~ Accommodation expenditure ~ \n{accommodation} \n ~ Activity expenditure ~ \n {activity} \n ~ Miscellaneous expenditure ~ \n {miscellaneous}")
+        print("Your total expenditure is: ${:,.2f}".format(total_spending))
     else:
         print("Thank you for you using this program to track your expenses")
 
 #MAIN
-
+print("Welcome to my expense tracking program where you can track your travel expenses")
 daily_budget = force_number("What is your daily budget: $")
 print("You have set your daily budget to {}".format(daily_budget))
 budget_confirmation = confirm_answer("Are you sure this is your budget? [yes or no]")

@@ -35,6 +35,7 @@ def force_answer(query):
         else:
             if all(l.isalpha() or l.isspace() for l in answer):
                 return answer
+                
 # Getting yes or no answer only
 def confirm_answer(question):
     while True:
